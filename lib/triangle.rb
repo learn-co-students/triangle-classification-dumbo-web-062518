@@ -1,29 +1,65 @@
 class Triangle
   # write code here
-  def initialize(length1, length2, length3)
-  	@length1 = length1
-  	@length2 = length2
-  	@length3 = length3
+  attr_reader :a, :b, :c
+  def initialize(a, b, c)
+  	@a = a
+  	@b = b
+  	@c = c
   end
 
   def kind
-  	return :equilateral if @length1 == @length2 && @length2 == @length3
-  	return :isosceles if @length1 == @length2 || @length2 == @length3 || @length1 == @length3
-  	return :scalene if @length1 != @length2 && @length2 != @length3 && @length3 != @length1
-  	raise TriangleError if @length1 < 0 || @length2 < 0 || @length3 < 0
-  	
-  	# if person.class != Person
-   #    begin
-   #      raise TriangleError
-   #    rescue TriangleError => error
-   #        puts error.message
-   #  end
+    validate_triangle
+  	return :equilateral if @a == @b && @b == @c
+  	return :isosceles if @a == @b || @b == @c || @a == @c
+  	return :scalene if @a != @b && @b != @c && @c != @a
+  	# raise TriangleError if @a < 0 || @b < 0 || @c < 0
+    # raise TriangleError if real_triangle.include?(false)
+  end
 
-  	
+
+  def validate_triangle
+    real_triangle = [(@a + @b > @c), (@a + @c > @b), (@b + @c > @a)]
+    [@a, @b, @c].each { |s| real_triangle << false if s <= 0 }
+    raise TriangleError if real_triangle.include?(false)
   end
 
   class TriangleError < StandardError
     # triangle error code
+    
   end
 
 end
+
+
+
+
+
+# class Triangle
+#   attr_reader :a, :b, :c
+#   def initialize(a, b, c)
+#     @a = a
+#     @b = b
+#     @c = c
+#   end
+
+#   def kind
+#     validate_triangle
+#     if a == b && b == c
+#       :equilateral
+#     elsif a == b || b == c || a == c
+#       :isosceles
+#     else
+#       :scalene
+#     end
+#   end
+
+#   def validate_triangle
+#     real_triangle = [(a + b > c), (a + c > b), (b + c > a)]
+#     [a, b, c].each { |s| real_triangle << false if s <= 0 }
+#     raise TriangleError if real_triangle.include?(false)
+#   end
+
+#   class TriangleError < StandardError
+#   end
+  
+# end
